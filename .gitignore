@@ -5,3 +5,4 @@ logit_avg_ckpts/
 tiny_ckpts/
 runs/
 **/__pycache__/**
+.env

@@ -22,7 +22,9 @@ import time
 import argparse
 
 import numpy as np
-import tiktoken
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
+from tokenizer import get_encoding
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
@@ -626,7 +628,7 @@ def main() -> None:
     wandb_run = DummyWandb() if rank != 0 else wandb.init(**wandb_kw)
 
     # --- Token bytes LUT for BPB ---
-    enc = tiktoken.get_encoding("gpt2")
+    enc = get_encoding("gpt2")
     eot_id = enc._special_tokens["<|endoftext|>"]
     token_bytes_lut = torch.tensor(
         [0 if i == eot_id else len(enc.decode_single_token_bytes(i))
