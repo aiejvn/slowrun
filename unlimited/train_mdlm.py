@@ -26,6 +26,8 @@ Usage:
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 import gc
 import math

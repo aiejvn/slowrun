@@ -16,6 +16,8 @@ import copy
 import math
 import os
 import random
+from dotenv import load_dotenv
+load_dotenv()
 import time
 import argparse
 

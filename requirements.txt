@@ -5,4 +5,5 @@ numpy
 datasets
 tqdm
 kernels
+python-dotenv
 
