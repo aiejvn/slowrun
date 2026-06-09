@@ -90,6 +90,7 @@ parser.add_argument("--input-val-bin",  type=str, default=None)
 parser.add_argument("--checkpoint-path",type=str, default="jepa_checkpoint.pt")
 parser.add_argument("--run",            type=str, default=None)
 parser.add_argument("--wandb-group",    type=str, default=None)
+parser.add_argument("--wandb-offline",  action="store_true")
 args = parser.parse_args()
 
 DATA_DIR = "fineweb_data"
@@ -620,6 +621,8 @@ def main() -> None:
     wandb_kw = {"project": "slowrun", "name": run_name}
     if args.wandb_group:
         wandb_kw["group"] = args.wandb_group
+    if args.wandb_offline:
+        wandb_kw["mode"] = "offline"
     wandb_run = DummyWandb() if rank != 0 else wandb.init(**wandb_kw)
 
     # --- Token bytes LUT for BPB ---

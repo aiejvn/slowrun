@@ -61,7 +61,8 @@ parser.add_argument("--input-bin", type=str, default=None)
 parser.add_argument("--input-val-bin", type=str, default=None)
 parser.add_argument("--checkpoint-path", type=str, default="mdlm_checkpoint.pt")
 parser.add_argument("--run", type=str, default=None)
-parser.add_argument("--wandb-group", type=str, default=None)
+parser.add_argument("--wandb-group",   type=str, default=None)
+parser.add_argument("--wandb-offline", action="store_true")
 parser.add_argument("--eval-elbo-steps", type=int, default=128,
                     help="Riemann steps for discrete ELBO eval (higher = tighter bound)")
 parser.add_argument("--eval-elbo-seqs", type=int, default=256,
@@ -427,6 +428,8 @@ def main():
     _wandb_kw = {"project": "slowrun", "name": run_name}
     if args.wandb_group:
         _wandb_kw["group"] = args.wandb_group
+    if args.wandb_offline:
+        _wandb_kw["mode"] = "offline"
     wandb_run = DummyWandb() if rank != 0 else wandb.init(**_wandb_kw)
 
     # --- Token bytes LUT for BPB eval ---
