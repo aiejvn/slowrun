@@ -563,6 +563,7 @@ def sample_block_spans(
 
 
 def vicreg_var_loss(z: Tensor, gamma: float, eps: float) -> Tensor:
+    """Hinge: penalize per-feature std < gamma across the batch of masked tokens."""
     n  = z.shape[0]
     zc = z - z.mean(dim=0)
     std = (zc.pow(2).sum(dim=0) / (n - 1) + eps).sqrt()
@@ -570,6 +571,7 @@ def vicreg_var_loss(z: Tensor, gamma: float, eps: float) -> Tensor:
 
 
 def vicreg_cov_loss(z: Tensor) -> Tensor:
+    """Off-diagonal covariance penalty: decorrelate feature dimensions."""
     n, d = z.shape
     zc  = z - z.mean(dim=0)
     cov = zc.T @ zc / (n - 1)
