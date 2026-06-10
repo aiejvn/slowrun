@@ -810,7 +810,7 @@ def main() -> None:
         for g in optimizer_muon.param_groups:
             g["momentum"] = muon_mom
 
-        jepa_frac = min(step / max(args.jepa_warmup_steps, 1), 1.0)
+        jepa_frac = min(step / max(args.jepa_warmup_steps, 1) + 1e-6, 1.0) # Avoid abs. 0 for DDP
         eff_jepa  = args.jepa_lambda * jepa_frac
 
         zero_grad_all()
