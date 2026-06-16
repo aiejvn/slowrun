@@ -900,17 +900,26 @@ def main() -> None:
                 f"  cov_p:{train_covp.item():.4f}"
                 f"  ema:{ema_mom:.4f}"
                 f"  lr_mul:{lr_mul:.3f}"
+                f"  jepa_f:{jepa_frac:.2f}"
                 f"  {elapsed:.0f}ms"
             )
             wandb_run.log({
-                "step":            step + 1,
-                "train_ce_loss":   train_ce.item(),
-                "jepa_mse":        train_jmse.item(),
-                "jepa_var_p":      train_varp.item(),
-                "jepa_cov_p":      train_covp.item(),
-                "jepa_lambda_eff": eff_jepa,
-                "ema_momentum":    ema_mom,
-                "lr_multiplier":   lr_mul,
+                "step":             step + 1,
+                "train_ce_loss":    train_ce.item(),
+                "jepa_mse":         train_jmse.item(),
+                "jepa_var_p":       train_varp.item(),
+                "jepa_cov_p":       train_covp.item(),
+                "jepa_lambda_eff":  eff_jepa,
+                "jepa_frac":        jepa_frac,
+                "jepa_total":       eff_jepa * train_jloss.item(),
+                "jmse_contrib":     eff_jepa * train_jmse.item(),
+                "var_contrib":      eff_jepa * args.jepa_var_weight * train_varp.item(),
+                "cov_contrib":      eff_jepa * args.jepa_cov_weight * train_covp.item(),
+                "ema_momentum":     ema_mom,
+                "muon_momentum":    muon_mom,
+                "lr_multiplier":    lr_mul,
+                "lr_matrix":        args.matrix_lr * lr_mul,
+                "lr_scalar":        args.scalar_lr * lr_mul,
             })
 
     # --- Final checkpoint ---
