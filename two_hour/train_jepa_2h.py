@@ -770,9 +770,13 @@ def main() -> None:
     training_time_ms = 0.0
     torch.cuda.synchronize()
     t0 = time.perf_counter()
+    run_start = t0
 
     for step in range(num_iterations + 1):
         is_last = (step == num_iterations)
+        if not is_last and time.perf_counter() - run_start >= 2 * 3600:
+            print0(f"2h cap reached at step {step} — stopping.")
+            is_last = True
         do_val  = is_last or (args.val_every > 0 and step % args.val_every == 0)
 
         if do_val:
