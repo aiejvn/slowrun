@@ -660,6 +660,8 @@ def main() -> None:
     print0(f"JEPA  {args.n_layer}L  {args.n_embd}d  {args.n_head}h  vocab={args.vocab_size}")
     print0(f"  jepa_lambda={args.jepa_lambda}  ema_start={args.jepa_ema_start}"
            f"  pred_dim={args.jepa_pred_dim}  num_spans={args.jepa_num_spans}")
+    print0(f"dropout: {args.dropout}")
+    print0(f"weight decay: {args.weight_decay}")
     print0(f"{'='*60}")
 
     base_model = GPT(
